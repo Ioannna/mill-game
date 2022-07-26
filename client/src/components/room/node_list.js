@@ -8,7 +8,7 @@ const NodeList = (props) => {
         key={node.id}
         isEmpty={!props.nodes[node.id].value}
         fill={
-          props.nodes[node.id].value === props.socket.id ? "#1976d2" : "red"
+          props.nodes[node.id].value === props.socket.id ? "#00CCFF" : "red"
         }
         socket={props.socket}
         action={props.action}

@@ -1,6 +1,7 @@
 class Player {
-  constructor(id, action, board, isFirst) {
+  constructor(id, playerName, action, board, isFirst) {
     this.id = id;
+    this.playerName = playerName;
     this.action = action;
     this.nodesLeftToPlace = 9;
     this.error = '';
@@ -19,6 +20,7 @@ class Player {
     const json = {};
     json[this.id] = {
       action: this.action,
+      playerName: this.playerName,
       nodesToPlace: this.nodesLeftToPlace,
       error: this.error,
       capturedNodes: this.capturedNodes(),

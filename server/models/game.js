@@ -10,11 +10,11 @@ const ACTIONS = {
 };
 
 class Game {
-  constructor(name, player) {
+  constructor(name, player, playerName) {
     this.name = name;
     this.ready = false;
     this.board = new Board();
-    this.playerOne = new Player(player, ACTIONS.place, this.board, true);
+    this.playerOne = new Player(player, playerName, ACTIONS.place, this.board, true);
     this.actions = new Map([
       ["place", this.place.bind(this)],
       ["capture", this.capture.bind(this)],
@@ -48,8 +48,8 @@ class Game {
     };
   };
 
-  addPlayer(player) {
-    this.playerTwo = new Player(player, ACTIONS.wait, this.board, false);
+  addPlayer(player, playerName) {
+    this.playerTwo = new Player(player, playerName, ACTIONS.wait, this.board, false);
     this.ready = true;
   }
 

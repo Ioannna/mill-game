@@ -9,6 +9,8 @@ const Player = (props) => {
     uncapturred_nodes.push(" ");
   }
 
+  console.log(props) 
+
   return (
     <div className="card-grid">
       <div
@@ -19,7 +21,7 @@ const Player = (props) => {
         }
       >
         <div className="player-card-header">
-          <h4>{props.opponent ? "Opponent" : "You"}</h4>
+          <h4>{props.opponent ? props.playerName : "You"}</h4>
           <div className="player-tokens-left">
             <div className="player-token-count">X{props.nodesToPlace}</div>
             <svg

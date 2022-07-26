@@ -23,17 +23,23 @@ server.listen(port, () => {
 });
 
 let availableRooms = [];
+let players = [];
 const games = {};
+let playerName1 = "andreea";
+let playerName2 = "ioana"
 
-const emitMenuData = (socketName) => {
+const emitMenuData = () => {
+  console.log(`This Are the players ${players}`)
   io.to("menu").emit("data", {
     room: "menu",
-    availableRooms,
+    availableRooms, 
+    players
   });
 };
 
 const emitRoomData = (roomName) => {
   io.to(roomName).emit("data", { room: games[roomName].data() });
+  console.log(games[roomName].data())
 };
 
 io.on("connection", (socket) => {
@@ -46,14 +52,6 @@ io.on("connection", (socket) => {
 
   emitMenuData();
 
-  // Tema 4 - Ex 3
-  // socket.on("new-message", ({ name, message, roomName }) => {
-  //   socket.broadcast
-  //     .to(roomName)
-  //     .emit("notification", `${name} a trimis un mesaj!`);
-  //   io.to(roomName).emit("received-message", `${name}: ${message}`);
-  // });
-
   socket.on("new-message", (message) => {
     io.to(socket.data.room).emit("received-message", message);
   });
@@ -62,7 +60,7 @@ io.on("connection", (socket) => {
     if (availableRooms.indexOf(roomName) === -1 && roomName !== "menu") {
       console.log("[CREATED ROOM] " + roomName);
       availableRooms.push(roomName);
-      games[roomName] = new Game(roomName, socket.id);
+      games[roomName] = new Game(roomName, socket.id, players[socket.id]);
       socket.data.room = roomName;
       socket.leave("menu");
       socket.join(roomName);
@@ -73,9 +71,15 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("add-player-name", (playerName) => {
+    players[socket.id] = playerName;
+    console.log(players)
+    emitMenuData()
+  })
+
   socket.on("join-room", (roomName) => {
     socket.leave("menu");
-    games[roomName].addPlayer(socket.id);
+    games[roomName].addPlayer(socket.id, players[socket.id]);
     socket.join(roomName);
     socket.data.room = roomName;
     availableRooms = availableRooms.filter((room) => room !== roomName);

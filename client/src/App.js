@@ -16,8 +16,12 @@ function App() {
 
     socket.on("data", (receivedData) => {
       setData(receivedData);
+      console.log(receivedData)
     });
+
   }, []);
+
+
 
   const content = () => {
     if (!(connectedSocket && data)) return null;
@@ -29,7 +33,6 @@ function App() {
         <Menu
           socket={connectedSocket}
           rooms={data.availableRooms}
-          socketName={data.socketName}
         />
       );
     }
